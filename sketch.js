@@ -1,8 +1,13 @@
+let color1 = 20
+let color2 = 30
+let color3 = 40
+
+function preload(){
+  apple = loadImage("apple.png");
+}
+
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  color1 = 20
-  color2 = 30
-  color3 = 40
 }
 
 function draw() {
@@ -10,9 +15,12 @@ function draw() {
   x = -245
   y = -200
   
-  color1 += 1
-  color2 += 2
-  color3 += 3
+  if(keyIsPressed == true){
+    color1 += 10
+    color2 += 20
+    color3 += 30
+  }
+  
 
   if(color1 > 150){
     color1 = 10
@@ -23,6 +31,9 @@ function draw() {
   if(color3 > 150){
     color3 = 20
   }
+
+
+
   
   for(i = 0; i < windowWidth; i += 25)
   {
@@ -32,5 +43,8 @@ function draw() {
         ellipse(i,j,20)
     }
   }
-  
+
+  image(apple, windowWidth/4, -100)
+
+
 }
