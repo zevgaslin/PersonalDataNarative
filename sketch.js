@@ -90,7 +90,7 @@ function draw(){
       reset = false
     }
 
-    if(score1 == 7 || score2 == 7){
+    if(score1 == 3 || score2 == 3){
       gameOver = true;
     }
   }
