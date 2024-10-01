@@ -1,7 +1,7 @@
 let capture
 let platform
 let button
-let tolerance = 200
+let tolerance = 50
 
 function setup(){
 createCanvas(640,200)
