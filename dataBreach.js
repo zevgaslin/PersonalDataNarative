@@ -1,17 +1,29 @@
 let table;
 let submitButton;
+let MenuButton;
 let canvas;
 let nameMenu;
 let mapImg;
 let dna_right;
+let dna_empty;
+let dnaRed;
+let dnaGreen;
+let dnaBlue;
+let dnaYellow;
 let changedPressed;
 let alreadyDragging;
 
 let draggableObjects = []; // Array to hold multiple draggable objects
+let obj2 = [];
+let obj3 = [];
 let goalTest;
+let blueGoal;
+let redGoall
+let greenGOal;
+let yellowGoal;
+let mapGoal;
 
-let level = 1;
-let numCorrect = 0;
+let level = 0;
 
 class DragObj {
 
@@ -105,6 +117,7 @@ class goal{
     this.ySize = ySize;
     this.tag = tag;
     this.color = "Red";
+    this.goal = false;
   }
 
 
@@ -115,11 +128,10 @@ class goal{
   }
 
   checkGoal(block){
-  	//print(this.x-block.x)
   	if(this.tag == block.tag){
 	  	if(abs((this.x+this.xSize/2) - (block.x+block.xSize/2)) < 20 && abs((this.y+this.ySize/2) - (block.y+block.ySize/2)) < 20){
 	  		print("goal");
-	  		numCorrect += 1;
+	  		this.goal = true;
 	  		this.color = "Green";
 	    	}
 	  	else{
@@ -134,6 +146,11 @@ function preload() {
   table = loadTable("PData.csv", "csv", "header");
   mapImg = loadImage("map.png");
   dna_right = loadImage("dna_right.png");
+  dna_empty = loadImage("dna_empty.png");
+  dnaRed = loadImage("RedDNA.png");
+  dnaGreen = loadImage("GreenDNA.png");
+  dnaYellow = loadImage("YellowDNA.png");
+  dnaBlue = loadImage("BlueDNA.png");
 }
 
 function setup() {
@@ -183,6 +200,9 @@ function setup() {
     draggableObjects.push(newObjectText);
     */
 
+  //MAKE DRAGGABLE OBJECT ARRAYS
+
+  //test level
  	//Create boxs with names on them
   	    for (let i = 0; i < table.getRowCount(); i++) {
   	      if ("G-G-Grandmother" === table.getString(i, "Relation to me")) {
@@ -193,10 +213,73 @@ function setup() {
 	      }
 	    }
 
+	//LEVEL 2
+    	let newObjectLevel2 = new DragObj(30,0,300,300, color("white"), null, "Super Secure \n  password protected data. \nDO NOT MOVE", 25, "password protector");
+    	obj2.push(newObjectLevel2);
+    	let redDNA = new DragObj(windowWidth/2, 250,100,30, color("white"), dnaRed, null, null, "RedDNA");
+    	obj2.push(redDNA);	
+    	let greenDNA = new DragObj(windowWidth/2, 300,70,30, color("white"), dnaGreen, null, null, "GreenDNA");
+    	obj2.push(greenDNA);	
+    	let yellowDNA = new DragObj(windowWidth/2, 350,100,30, color("white"), dnaYellow, null, null, "YellowDNA");
+    	obj2.push(yellowDNA);	
+    	let blueDNA = new DragObj(windowWidth/2, 400,70,25, color("white"), dnaBlue, null, null, "BlueDNA");
+    	obj2.push(blueDNA);	
+
+    	blueGoal = new goal(920, 144, 70, 25, "BlueDNA");
+    	redGoal = new goal(905, 170, 70, 25, "RedDNA");
+    	yellowGoal = new goal(905, 196, 70, 25, "YellowDNA");
+    	greenGoal = new goal(920, 225, 70, 25, "GreenDNA");
+
+
+    	//level 3
+    	 for (let i = 0; i < table.getRowCount(); i++) {
+  	      if ("G-G-Grandmother" === table.getString(i, "Relation to me")) {
+  	      	let x = 0;
+  	      	let y = 0;
+  	      	if("Kentucky" === table.getString(i, "Place of Birth")){
+  	      		x = 547;
+  	      		y = 350;
+
+  	      	}
+  	      	else if("St. Louis, MO" === table.getString(i, "Place of Birth")){
+  	      		x = 547;
+				y = 291;
+
+  	      	}
+  	      	else if("Allegheny County, NC" === table.getString(i, "Place of Birth")){
+  	      		x = 579;
+  	      		y=320;
+  	      	}
+  	      	else if("Amsterdam, Netherlands" === table.getString(i, "Place of Birth")){
+  	      		x = 100000;
+  	      		y = 100000;
+  	      	}
+  	      	else if("Poland" === table.getString(i, "Place of Birth")){
+  	      		x= 806;
+  	      		y = 260;
+  	      	}
+  	      	else if ("Stryi, Poland" === table.getString(i, "Place of Birth")){
+  	      		break;
+  	      	}
+
+    		let newObject = new DragObj(x, y, 50, 20, color("white"), null, table.getString(i, "Name"), 7, table.getString(i, "Name"));
+    		obj3.push(newObject);	       
+	      }
+
+	      mapGoal = new goal(windowWidth/2 + 200, 100, 60, 30, "Nechama Weiss");
+	    }
+
+
 
   	//make goal
      goalTest = new goal(100,100,100,100, "Schoontje de Hond");
 
+     MenuButton = createButton("Continue");
+  	MenuButton.position(300, 300);
+  	MenuButton.style('font-size', '16px');
+
+  	MenuButton.mousePressed(nextLevel);
+  	MenuButton.hide()
 }
 
 
@@ -222,30 +305,149 @@ changedPressed = true
 	
 }
 
+function nextLevel(){level += 1;}
+
 function draw() {
-
-  background(0);
-  if(changedPressed == true){
-  	changeData();
-	}
-  if (mapImg) {
-    //image(mapImg, 100, 300);
-  }
-
-    goalTest.display();
-    fill("white")
-    text("Wierdest Name Here ->", goalTest.x - 40, goalTest.y)
+//menu screen
+print(level);
+print("x " + mouseX);
+print("y" + mouseY);
 
 
-  // Loop through each draggable object
-  for (let obj of draggableObjects) {
-    obj.display();
-    obj.handleInput();
-    goalTest.checkGoal(obj);
-  }
+
+if(level == 0){
+	nameMenu.hide();
+	submitButton.hide();
+	background(0);
+	fill("White");
+	textSize(100);
+	textAlign(CENTER);
+	text("Welcome to Hereditary", windowWidth/2, 200);
+	textSize(30)
+	text("Hereditary sets the industry standard when it comes to storing and analyzing geneitc data, \nand our customers are always our first priority. \n Over 3,200 data bases storing users personal information were hacked this past year, \nbut not to worry, our servers are super secure and safe.", windowWidth/2, 400);
+	MenuButton.show()
+	MenuButton.position(windowWidth/2, 600);
+}
+else if(level == 1){
+	MenuButton.hide();
+	background(0);
+	textAlign(RIGHT);
+	text("Logging in as Zev:",400,100);
+	//webcam stuff
+	MenuButton.show()
 
 }
+else if(level == 2){
+	background(0);
+	MenuButton.hide();
+	textAlign(CENTER);
+	textSize(30);
+	fill("white");
+	text("Just making sure its really you. \nTwo Factor DNA Authentication:", windowWidth/2 - 200, 100);
 
+
+	imageMode(RIGHT)
+	image(dna_right,150,150);
+
+	image(dna_empty,windowWidth/2 + 200,200);
+
+	blueGoal.display();
+	redGoal.display();
+	yellowGoal.display();
+	greenGoal.display();
+
+
+	for (let obj of obj2) {
+		obj.display();
+		obj.handleInput();
+		blueGoal.checkGoal(obj);
+		redGoal.checkGoal(obj);
+		yellowGoal.checkGoal(obj);
+		greenGoal.checkGoal(obj);
+	}
+	if(blueGoal.goal && redGoal.goal && yellowGoal.goal && greenGoal.goal){
+		nextLevel();
+	}
+	//MenuButton.show();
+}
+else if(level == 3){
+	MenuButton.hide();
+	background(0);
+	textAlign(CENTER);
+	fill("blue");
+	textSize(30);
+	text("Huh, I really thought that would be harder. I guess this security is not as good as they said it was.",windowWidth/2,100);
+	MenuButton.show()
+}
+else if (level == 4){
+	MenuButton.hide();
+	background(0);
+	textAlign(CENTER);
+	fill("white");
+	textSize(30);
+	text("Securty level 1 complete, thank you for your patience. \nHere at Hereditary we pride ourselves on keeping your data as safe as possible.",windowWidth/2,100);
+	MenuButton.show()
+}
+else if(level == 5){
+	background(0);
+	fill("white");
+	textSize(20)
+	text("Secutry question: Place the family member from Poland here", windowWidth/2, 100);
+	text("For your convinience, we have placed each family memebr in their coresponding country of origin on this map.", windowWidth/2, 190);
+
+	image(mapImg, windowWidth/2, 400)
+
+	mapGoal.display();
+
+	for (let obj of obj3) {
+		obj.display();
+		obj.handleInput();
+		mapGoal.checkGoal(obj);
+	}
+
+	if(mapGoal.goal){
+		nextLevel();
+	}
+	MenuButton.hide();
+}
+else if(level == 6){
+	background(0);
+	fill("white");
+	textSize(20);
+	text("Hey Zev, you're in! Heres all your super personal data. Good thing this is definitely you and not someone trying to hack into your account.",windowWidth/2, 200)
+	MenuButton.show()
+}
+else if(level == 7){
+		background(0);
+		textSize(100)
+		text("Thank you for playing", windowWidth/2, 200);
+		MenuButton.hide()
+
+}
+else if(level == 10){
+	background(0);
+	MenuButton.hide();
+	/*
+	if(changedPressed == true){
+	 	changeData();
+	}
+	if (mapImg) {
+	//image(mapImg, 100, 300);
+	}
+	*/
+	goalTest.display();
+	fill("white")
+	text("Wierdest Name Here ->", goalTest.x - 40, goalTest.y)
+
+
+	// Loop through each draggable object
+	for (let obj of draggableObjects) {
+		obj.display();
+		obj.handleInput();
+		goalTest.checkGoal(obj);
+	}
+}
+}
 
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
