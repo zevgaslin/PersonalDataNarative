@@ -376,7 +376,8 @@ else if(level == 3){
 	textAlign(CENTER);
 	fill("blue");
 	textSize(30);
-	text("Huh, I really thought that would be harder. I guess this security is not as good as they said it was.",windowWidth/2,100);
+	text("Huh, I really thought that would be harder. I guess this security is not as good as they said it was. \nThat explains why over 7 million poeples genetic data was breached last year.",windowWidth/2,100);
+	//source: https://www.bbc.com/future/article/20240212-dna-testing-what-happens-if-your-genetic-data-is-hacked
 	MenuButton.show()
 }
 else if (level == 4){
@@ -411,13 +412,22 @@ else if(level == 5){
 	MenuButton.hide();
 }
 else if(level == 6){
+	MenuButton.hide();
+	background(0);
+	textAlign(CENTER);
+	fill("blue");
+	textSize(30);
+	text("Wow, they really couldn't have made that question easier. ",windowWidth/2,100);
+	MenuButton.show()
+}
+else if(level == 7){
 	background(0);
 	fill("white");
 	textSize(20);
 	text("Hey Zev, you're in! Heres all your super personal data. Good thing this is definitely you and not someone trying to hack into your account.",windowWidth/2, 200)
 	MenuButton.show()
 }
-else if(level == 7){
+else if(level == 8){
 		background(0);
 		textSize(100)
 		text("Thank you for playing", windowWidth/2, 200);
