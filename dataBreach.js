@@ -456,7 +456,7 @@ else if(level == 5){
 	fill("white");
 	textSize(20)
 	text("Secutry question: Place the family member from Poland here", windowWidth/2, 3*windowHeight/8,3*windowWidth/4,windowHeight/2);
-	text("For your convinience, we have placed each family memebr in their coresponding country of origin on this map.", windowWidth/2, 3.5*windowHeight/8,3*windowWidth/4,windowHeight/2);
+	text("For your convinience, we have placed each family member in their coresponding country of origin on this map.", windowWidth/2, 3.5*windowHeight/8,3*windowWidth/4,windowHeight/2);
 
 	image(mapImg, windowWidth/2, 5*windowHeight/8)
 
